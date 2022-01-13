@@ -15,9 +15,7 @@ pipeline {
       
     stage('Building image') {
       steps{
-        script {
-          docker build -t 'devoteamhichamrahj/test:2'
-        }
+        docker build -t 'devoteamhichamrahj/test:2'
       }
     }
     stage('Deploy Image') {
