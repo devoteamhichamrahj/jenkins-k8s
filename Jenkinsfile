@@ -16,7 +16,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          docker.build registry + ":2"
+          docker build -t 'devoteamhichamrahj/test:2'
         }
       }
     }
