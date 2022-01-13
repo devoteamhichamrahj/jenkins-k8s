@@ -6,5 +6,10 @@ pipeline {
                 sh 'python3 hello.py'
             }
         }
+         stage('after') {
+            steps {
+                sh 'cat hello.py'
+            }
+        }
     }
 }
