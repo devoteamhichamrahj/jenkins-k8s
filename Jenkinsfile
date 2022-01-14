@@ -1,22 +1,42 @@
 pipeline {
   environment {
-    registry = "devohichamrahj/test"
+    registry = "devohichamrahj/docker-test"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
   agent any
-
+    
+  tools {nodejs "node"}
+    
   stages {
-    stage('Build') {
-          steps {
-              echo 'building....'
-          }
+        
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/ousshsn/authapp'
       }
-      
+    }
+        
+    stage('Install dependencies') {
+      steps {
+        bat 'npm install'
+      }
+    }
+
+    stage('Install dotenv') {
+      steps {
+        bat 'npm install -g win-node-env'
+      }
+    }
+     
+    stage('Test') {
+      steps {
+        bat 'npm test'
+      }
+    }
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":latest"
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
       }
     }
@@ -29,5 +49,10 @@ pipeline {
         }
       }
     }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }      
   }
 }
