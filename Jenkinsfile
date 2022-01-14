@@ -8,7 +8,7 @@ pipeline {
         }
          stage('after') {
             steps {
-                sh 'cat hello.py'
+                ls 
             }
         }
     }
